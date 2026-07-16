@@ -46,7 +46,7 @@ export default function LoginPage() {
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="owner@demostock.local"
+          placeholder="username"
           className="w-full border border-line rounded-lg px-3 py-2.5 text-sm mb-4"
         />
 
