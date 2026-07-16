@@ -34,7 +34,7 @@ export default function LoginPage() {
         className="w-full max-w-sm bg-surface border border-line rounded-2xl p-6"
       >
         <div className="font-display font-bold text-xl text-ink mb-1">
-          Bantay Stock
+          DEMO Stock
         </div>
         <div className="text-xs text-muted font-semibold mb-6">
           Sign in to your account
@@ -46,7 +46,7 @@ export default function LoginPage() {
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="owner@bantaystock.local"
+          placeholder="owner@demostock.local"
           className="w-full border border-line rounded-lg px-3 py-2.5 text-sm mb-4"
         />
 
