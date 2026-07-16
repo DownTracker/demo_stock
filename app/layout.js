@@ -16,7 +16,7 @@ const plexMono = IBM_Plex_Mono({
 });
 
 export const metadata = {
-  title: "Bantay Stock",
+  title: "Demo Stock",
   description: "Inventory & DENR compliance for aggregates & hardware supply",
 };
 
