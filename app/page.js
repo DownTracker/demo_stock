@@ -5,7 +5,7 @@ export default function Home() {
     <main className="min-h-screen flex flex-col items-center justify-center gap-6 px-6 text-center">
       <div>
         <div className="font-display font-bold text-2xl tracking-tight text-ink">
-          BANTAY STOCK
+          DITO YUNG BUSINESS NAME
         </div>
         <div className="text-sm text-muted font-semibold mt-1">
           Aggregates &amp; Hardware Supply
@@ -19,7 +19,7 @@ export default function Home() {
         href="/login"
         className="bg-brand text-white font-bold text-sm px-6 py-3 rounded-xl active:scale-95 transition-transform"
       >
-        Open Bantay Stock
+        Open DEMO Stock
       </Link>
     </main>
   );
