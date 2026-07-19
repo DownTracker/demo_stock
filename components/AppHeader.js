@@ -5,6 +5,8 @@ import { supabase } from "@/lib/supabaseClient";
 import { useAuth } from "@/lib/useAuth";
 import { LogOut } from "lucide-react";
 
+// Mobile-only top bar. On desktop, Sidebar shows brand/role/sign-out
+// instead, so this whole header is hidden there (md:hidden).
 export default function AppHeader() {
   const { profile } = useAuth();
   const router = useRouter();
@@ -15,10 +17,10 @@ export default function AppHeader() {
   }
 
   return (
-    <div className="flex items-center justify-between px-4 pt-5 pb-3">
+    <div className="md:hidden flex items-center justify-between px-4 pt-5 pb-3 no-print">
       <div>
         <div className="font-display font-bold text-base text-ink tracking-tight">
-          BANTAY STOCK
+          DemoStock
         </div>
         <div className="text-[10px] text-muted font-semibold mt-0.5">
           Aggregates &amp; Hardware Supply

@@ -1,19 +1,22 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { Plus, Minus } from "lucide-react";
+import Link from "next/link";
+import { Plus, ShoppingCart } from "lucide-react";
 import { supabase } from "@/lib/supabaseClient";
 import { useAuth } from "@/lib/useAuth";
 import { statusOf } from "@/lib/stock";
 import StockCard from "@/components/StockCard";
 import AlertBar from "@/components/AlertBar";
 import StockModal from "@/components/StockModal";
+import StockLevelsChart from "@/components/StockLevelsChart";
 
 export default function DashboardPage() {
   const { profile } = useAuth();
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [modalMode, setModalMode] = useState(null); // "IN" | "OUT" | null
+  const [addOpen, setAddOpen] = useState(false);
+  const [adjustItem, setAdjustItem] = useState(null);
 
   const loadItems = useCallback(async () => {
     const { data } = await supabase.from("items").select("*").order("name");
@@ -32,10 +35,7 @@ export default function DashboardPage() {
     if (!item) return;
     const newQty = mode === "IN" ? item.qty + qty : Math.max(0, item.qty - qty);
 
-    // 1. update the item's quantity
     await supabase.from("items").update({ qty: newQty }).eq("id", itemId);
-
-    // 2. log the transaction so it shows up in History
     await supabase.from("transactions").insert({
       item_id: itemId,
       type: mode,
@@ -44,57 +44,76 @@ export default function DashboardPage() {
       remarks: remarks || "-",
     });
 
-    setModalMode(null);
+    setAddOpen(false);
+    setAdjustItem(null);
     loadItems();
   }
 
   if (loading) {
-    return <div className="px-4 py-6 text-sm text-muted">Loading stock…</div>;
+    return <div className="px-4 md:px-0 py-6 text-sm text-muted">Loading stock…</div>;
   }
 
   return (
     <div>
       <AlertBar items={lowItems} />
 
-      <div className="px-4">
-        <div className="flex gap-2.5 mb-5">
+      <div className="px-4 md:px-0">
+        <div className="flex gap-2.5 mb-5 md:mb-6 md:max-w-md">
           <button
-            onClick={() => setModalMode("IN")}
+            onClick={() => setAddOpen(true)}
             className="flex-1 bg-brand text-white rounded-2xl py-4 flex flex-col items-center gap-1.5 font-bold text-[13px] active:scale-95 transition-transform"
           >
             <Plus size={22} strokeWidth={3} />
             ADD STOCK
           </button>
-          <button
-            onClick={() => setModalMode("OUT")}
-            className="flex-1 bg-danger text-white rounded-2xl py-4 flex flex-col items-center gap-1.5 font-bold text-[13px] active:scale-95 transition-transform"
+          <Link
+            href="/pos"
+            className="flex-1 bg-ink text-white rounded-2xl py-4 flex flex-col items-center gap-1.5 font-bold text-[13px] active:scale-95 transition-transform"
           >
-            <Minus size={22} strokeWidth={3} />
-            REDUCE STOCK
-          </button>
+            <ShoppingCart size={22} strokeWidth={3} />
+            NEW SALE
+          </Link>
         </div>
 
-        <div className="text-[11px] font-bold tracking-wide text-muted mb-2.5">
-          STOCK LEVELS
-        </div>
-        <div className="flex flex-col gap-2.5 pb-6">
-          {items.map((item) => (
-            <StockCard item={item} key={item.id} />
-          ))}
-          {items.length === 0 && (
-            <div className="text-sm text-muted">
-              No items yet — add rows to the `items` table in Supabase.
+        <div className="md:grid md:grid-cols-5 md:gap-6">
+          <div className="md:col-span-3">
+            <div className="text-[11px] font-bold tracking-wide text-muted mb-2.5">
+              STOCK LEVELS
             </div>
-          )}
+            <div className="grid sm:grid-cols-2 md:grid-cols-2 gap-2.5 md:gap-3 pb-6">
+              {items.map((item) => (
+                <StockCard item={item} key={item.id} onAdjust={setAdjustItem} />
+              ))}
+              {items.length === 0 && (
+                <div className="text-sm text-muted col-span-2">
+                  No items yet — add rows to the `items` table in Supabase.
+                </div>
+              )}
+            </div>
+          </div>
+          <div className="md:col-span-2 md:pb-6">
+            {items.length > 0 && <StockLevelsChart items={items} />}
+          </div>
         </div>
       </div>
 
-      {modalMode && (
+      {addOpen && (
         <StockModal
-          mode={modalMode}
+          mode="IN"
           items={items}
           onSubmit={handleStockSubmit}
-          onClose={() => setModalMode(null)}
+          onClose={() => setAddOpen(false)}
+        />
+      )}
+
+      {adjustItem && (
+        <StockModal
+          mode="OUT"
+          allowToggle
+          items={items}
+          lockedItemId={adjustItem.id}
+          onSubmit={handleStockSubmit}
+          onClose={() => setAdjustItem(null)}
         />
       )}
     </div>

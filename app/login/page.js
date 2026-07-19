@@ -34,7 +34,7 @@ export default function LoginPage() {
         className="w-full max-w-sm bg-surface border border-line rounded-2xl p-6"
       >
         <div className="font-display font-bold text-xl text-ink mb-1">
-          DEMO Stock
+          DemoStock
         </div>
         <div className="text-xs text-muted font-semibold mb-6">
           Sign in to your account

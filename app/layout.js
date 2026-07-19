@@ -16,8 +16,9 @@ const plexMono = IBM_Plex_Mono({
 });
 
 export const metadata = {
-  title: "Demo Stock",
-  description: "Inventory & DENR compliance for aggregates & hardware supply",
+  title: "DemoStock — Inventory, POS & Compliance",
+  description:
+    "Inventory tracking, point of sale, and DENR compliance reporting for aggregates and hardware suppliers.",
 };
 
 export default function RootLayout({ children }) {

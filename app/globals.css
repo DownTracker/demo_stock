@@ -11,6 +11,8 @@
   --brand-dark: #1f3f27;
   --danger: #a6403a;
   --amber: #d79a2c;
+  --accent: #3e6b8a;
+  --sidebar: #17140f;
 }
 
 @theme inline {
@@ -24,6 +26,8 @@
   --color-brand-dark: var(--brand-dark);
   --color-danger: var(--danger);
   --color-amber: var(--amber);
+  --color-accent: var(--accent);
+  --color-sidebar: var(--sidebar);
   --font-display: var(--font-space-grotesk);
   --font-sans: var(--font-public-sans);
   --font-mono: var(--font-plex-mono);
@@ -33,4 +37,10 @@ body {
   background: var(--background);
   color: var(--ink);
   font-family: var(--font-sans), sans-serif;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
 }

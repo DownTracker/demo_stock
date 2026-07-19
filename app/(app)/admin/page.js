@@ -61,8 +61,8 @@ function AdminInner() {
   }
 
   return (
-    <div className="px-4 pb-6">
-      <div className="text-[11px] font-bold tracking-wide text-muted mb-2.5">
+    <div className="px-4 md:px-0 pb-6 md:max-w-2xl">
+      <div className="text-[11px] font-bold tracking-wide text-muted mb-2.5 mt-1">
         USER ACCOUNTS
       </div>
       <div className="flex flex-col gap-2">
